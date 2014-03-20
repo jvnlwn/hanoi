@@ -75,24 +75,40 @@ So, we've bubbled up into the previous scope where `disc` was 1. We immediately 
 Now, we've bubble back up into the previuos scope we were just in, where `disc` was 1. We just came out of the second recursive call in that scope, so 'second call: 1' is logged. There is nothing left to process in the current scope, so we break out and bubble back up to the scope above where `disc` is 2. Can you follow what happens next?
 
 ### Diagram!
-Let me now introduce this simple diagram
+Let me now introduce this simple diagram:
         
 ```
-              3                               3
+              3                 -               3
 ```
 ```
-      2               2               2               2
+      2       -        2                2       -        2
 ```
 ```
-  1       1       1       1       1       1       1       1  
+  1   -    1       1   -    1       1   -    1       1   -    1  
 ```
 ```
-  0       0       0       0       0       0       0       0
+  0        0       0        0       0        0       0        0
 ```
+
 Unfortunately, this is the best visual representation I can do here. Each number represents one `hanoi` call. Each separate line represents a scope, though only the numbers that have forked down from the same parent actually share the same scope. This diagram matches my modified function's output. The first log is represented by the bottom-left 0. The last log is represtented by the top-right 3. So, this diagram is read top to bottom, left to right.
 
 The top line (3 3), is our first call to the function. `disc` is 3. Each following call decrements `disc` (3 -> 2 -> 1 -> 0) till zero is reached. We log 'end: 0', bubble up, log 'first call: 1', move horizontal in scope, recurse till we hit zero (1 -> 0), log 'end: 0', bubble up, log 'second call: 1', bubble up, log 'first call: 2', move horizontal in scope, recurse till we hit zero (2 -> 1 -> 0). . . and so on.
 
+###Diagram Revised!
+
+In the following revised diagram, we emphasize the values logged from the original function. If we read this in the order we described, the order would be 1 2 1 3 1 2 1, exactly how the order appears in the original output. Notice how all the left-side numbers in a given scope are emphasised and none of the right-side numbers are emphasized. This is because a left-side number represent the first recursive call in a given scope and the right-side number represent the second recursice call in that scope.
+        
+```
+               [3]               -                  3
+```
+```
+      [2]       -        2                [2]       -        2
+```
+```
+ [1]   -    1      [1]   -    1      [1]   -    1      [1]   -    1  
+```
+```
+  0         0       0         0       0         0       0         0
+```
 ### Additional Thoughts
 I think you get the picture. How on earth, though, do we get the correct output for what disc is to be moved? That is definitely another conundrum. .
-
