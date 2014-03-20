@@ -15,13 +15,13 @@ An example of recursion used by Douglas Crockford in his book *JavaScript: The G
 
 Outputs
       
-    Move disc 1 from Src to Dst
-    Move disc 2 from Src to Aux
-    Move disc 1 from Dst to Aux
-    Move disc 3 from Src to Dst
-    Move disc 1 from Aux to Src
-    Move disc 2 from Aux to Dst
-    Move disc 1 from Src to Dst
+    Move disc 1 from Src to Aux
+    Move disc 2 from Src to Dst
+    Move disc 1 from Aux to Dst
+    Move disc 3 from Src to Aux
+    Move disc 1 from Dst to Src
+    Move disc 2 from Dst to Aux
+    Move disc 1 from Src to Aux
 
 ### My Version
 I have used recursion and believe I understand the concept, but this example had me quite perplexed. In an attempt of understanding this function, I modified the original function by adding my own console.logs:
