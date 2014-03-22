@@ -1,0 +1,82 @@
+#stage {
+    width: 1110px;
+    height: 600px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.platforms {
+    position: absolute;
+    bottom: 0;
+}
+
+.platform {
+    color: rgb(255, 255, 255);
+    width: 300px;
+    height: 70px;
+    font-size: 70px;
+    text-align: center;
+    line-height: 67px;
+    font-family: helvetica;
+    background: rgb(0, 0, 0);
+    display: inline-block;
+    margin-right: 100px;
+}
+
+.platform:last-child {
+    margin-right: 0;
+}
+
+.disc {
+    width: 300px;
+    height: 40px;
+    position: absolute;
+    opacity: 0;
+    left: 0;
+    bottom: 0;
+    transition: all .4s ease;
+    /*-webkit-animation: move 1.5s ease forwards;*/
+}
+
+.innerDisc {
+    height: inherit;
+    margin: 0 auto;
+    background-color: green;
+}
+
+.discee {
+    width: 300px;
+    height: 40px;
+    position: absolute;
+    bottom: 100px;
+    background: green;
+    transition: all 1s ease;
+    /*-webkit-animation: move 1.5s ease forwards;*/
+}
+
+@-webkit-keyframes move {
+
+    from {
+        -webkit-transform: translate(0px)
+    }
+    to {
+        -webkit-transform: rotate(180deg)
+                   translate(-150px, 50px)
+                   rotate(-180deg);
+    }
+}
+
+
+
+/*@-webkit-keyframes rot {
+    from {
+        -webkit-transform: rotate(0deg)
+                   translate(-150px)
+                   rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg)
+                   translate(-150px) 
+                   rotate(-360deg);
+    }
+}*/
