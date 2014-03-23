@@ -1,3 +1,21 @@
+body {
+    background: #eee;
+    font-family: helvetica;
+}
+
+h1 {
+    font-size: 80px;
+    font-weight: 100;
+    display: block;
+    text-align: right;
+    margin: 0;
+}
+
+p {
+    text-align: right;
+    float: right;
+}
+
 #stage {
     width: 1110px;
     height: 600px;
@@ -11,14 +29,15 @@
 }
 
 .platform {
-    color: rgb(255, 255, 255);
+    color: rgb(192, 192, 192);
+    font-weight: 100;
+    font-variant: small-caps;
     width: 300px;
     height: 70px;
     font-size: 70px;
     text-align: center;
-    line-height: 67px;
-    font-family: helvetica;
-    background: rgb(0, 0, 0);
+    line-height: 60px;
+    background: #222;
     display: inline-block;
     margin-right: 100px;
 }
@@ -35,48 +54,12 @@
     left: 0;
     bottom: 0;
     transition: all .4s ease;
-    /*-webkit-animation: move 1.5s ease forwards;*/
 }
 
 .innerDisc {
     height: inherit;
     margin: 0 auto;
+    border-radius: 16px;
     background-color: green;
 }
 
-.discee {
-    width: 300px;
-    height: 40px;
-    position: absolute;
-    bottom: 100px;
-    background: green;
-    transition: all 1s ease;
-    /*-webkit-animation: move 1.5s ease forwards;*/
-}
-
-@-webkit-keyframes move {
-
-    from {
-        -webkit-transform: translate(0px)
-    }
-    to {
-        -webkit-transform: rotate(180deg)
-                   translate(-150px, 50px)
-                   rotate(-180deg);
-    }
-}
-
-
-
-/*@-webkit-keyframes rot {
-    from {
-        -webkit-transform: rotate(0deg)
-                   translate(-150px)
-                   rotate(0deg);
-    }
-    to {
-        -webkit-transform: rotate(360deg)
-                   translate(-150px) 
-                   rotate(-360deg);
-    }
-}*/

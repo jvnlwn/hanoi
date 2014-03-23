@@ -1,7 +1,7 @@
 var stage = {};
 
 $(document).ready(function() {
-    stage.setDimensions(5).setDiscs(stage.randomColor()).enterDiscs();
+    stage.setDimensions(4).setDiscs(stage.randomColor()).enterDiscs();
     hanoi(stage.numOfDiscs, 'src', 'aux', 'dst');
     stage.moveDiscs();
 })
