@@ -1,15 +1,13 @@
 var stage = {};
 
 $(document).ready(function() {
-    stage.setDimensions(4).setDiscs(stage.randomColor()).enterDiscs();
-    hanoi(stage.numOfDiscs, 'src', 'aux', 'dst');
-    stage.moveDiscs();
+    // setup by creating discs, entering them into the DOM, and setting mouse events
+    stage.setDimensions(10).setDiscs('#EDEDED').enterDiscs().hover().select();
 })
 
 stage.moves = [];
 stage.discs = [];
 
-// for recording discs moving from platform to platform
 stage.platforms = [
     {
         name: 'src',
@@ -28,13 +26,19 @@ stage.platforms = [
     }
 ];
 
+// sets discs
+stage.set = function (discs) {
+    this.discs = discs;
+    this.platforms[0].discs = discs;
+}
+
 // setting the dimensions of each disc
 stage.setDimensions = function (numOfDiscs) {
     this.numOfDiscs = numOfDiscs;
 
     var dimensions = {
-        min: 100,
-        max: 250
+        min: 75,
+        max: 275
     }
 
     var range = dimensions.max - dimensions.min;
@@ -57,8 +61,9 @@ stage.setDiscs = function (color) {
         color = colorLuminance(color, -.1)
         var innerEl = '<div class="innerDisc" style="width: ' + this.dimensions[i] + 'px; background-color: ' + color + '"></div>';
         var disc = {
-            number: (i + 1),
-            el:     $('<div class="disc" id="' + (i + 1) + '" style="bottom: 800px;">' + innerEl + '</div>')
+            color: color,
+            innerEl: innerEl,
+            el: $('<div class="disc" style="bottom: 800px;">' + innerEl + '</div>')
         }
 
         // add to discs
@@ -70,7 +75,6 @@ stage.setDiscs = function (color) {
 
 // enter discs to src platform
 stage.enterDiscs = function () {
-    var discs = this.discs.slice().reverse();
     
     for (var i = 0; i < this.numOfDiscs; i++) {
         $('#stage').append(this.discs[i].el);
@@ -80,10 +84,11 @@ stage.enterDiscs = function () {
         (function(i){ setTimeout(function() {
                 var bottom = (70 + (i * 40)).toString() + 'px';
                 // drop and fade discs in
-                that.discs[Math.abs(i - that.numOfDiscs + 1)].el.css({bottom: bottom, opacity: 1})
+                that.discs[Math.abs(i - that.numOfDiscs + 1)].el.css({bottom: bottom, opacity: .8})
             }, i * 100)
         })(i);
     }
+    return this;
 }
 
 // move discs with setTimeout
@@ -135,7 +140,77 @@ stage.randomColor = function () {
     return color;
 }
 
-// the hanoi function
+// hover over disc selects
+stage.hover = function () {
+    var discs = this.discs.slice();
+
+    discs.forEach(function(disc, index) {
+        disc.el.children().on('mouseover', function() {
+
+            returnColor(index);
+
+            for (var i = discs.length - 1; i > index - 1; i--) {
+                discs[i].el.children().css('background-color', colorLuminance(discs[i].color, -.25))
+            }
+
+        }).on('mouseout', function() {
+            returnColor(index);
+        })
+    })
+
+    function returnColor (index) {
+        for (var i = 0; i < discs.length; i++) {
+            discs[i].el.children().css('background-color', discs[i].color)
+        }
+    }
+
+    return this;
+}
+
+// removes unwanted discs from puzzle
+stage.realizeSelection = function (index) {
+    var color = this.randomColor();
+    var discs = this.discs;
+
+    // looping over discs
+    for (var i = 0; i < discs.length; i++) {
+        // remove evens from discs
+        discs[i].el.off('click').children().off('mouseover').off('mouseout');
+
+        if (i < index) {
+            discs[i].el.css('opacity', 0);
+            // waiting for the opacity transition before removing the discs from DOM
+            (function (i) { setTimeout(function() {
+                    discs[i].el.remove();
+                }, 400)
+            }(i));
+        } else {
+            // changing the color of the discs we want in the puzzle
+            color = colorLuminance(color, -.15);
+            discs[i].el.css('opacity', 1).children().css('background-color', color);
+        }
+    }
+
+    // returning the discs we want in the puzzle
+    return discs.slice(index);
+}
+
+// when a disc is clicked, begin the hanoi puzzle
+stage.select = function () {
+    var that = this;
+    this.discs.forEach(function(disc, index) {
+        disc.el.on('click', function() {
+            // setting the puzzle according the discs selected
+            that.set(that.realizeSelection(index));
+            // runnig the hanoi function to get the moves for the puzzle
+            hanoi(that.discs.length, 'src', 'aux', 'dst');
+            // cyclining through the moves
+            that.moveDiscs();
+        })
+    })
+}
+
+// the hanoi function from Douglas Crockford's JavaScript: The Good Parts
 var hanoi = function (disc, src, aux, dst) {
 
     if (disc > 0) {
@@ -166,4 +241,3 @@ function colorLuminance(hex, lum) {
 
     return rgb;
 }
-
